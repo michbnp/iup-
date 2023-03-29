@@ -1,64 +1,101 @@
 #include <iostream>
+#include <conio.h>
 
 using namespace std;
+bool youlost;
+const int width = 30;
+const int height = 30;
+int x, y, fruitX, fruitY, score;
+enum eDir { STOP = 0, LEFT, RIGHT, UP, DOWN };
+eDir dora;
 
-int weth = 30;     // ширина игрового пол€
-int height = 30;   //  высота игрового пол€ 
-int x, y, appX, appY, result;     // координаты змеи, €блок и счЄт
+void setup() {
+    youlost = false;
+    dora = STOP;
+    x = width / 2 - 1;
+    y = height / 2 - 1 ;
+    fruitX = rand() % width;
+    fruitX = rand() % height;
+    score = 0;
+}
+void create() {
+    system("cls"); 
+    for (int i = 0; i < width + 1; i++) 
+        cout << "#";
+        cout << endl;
+    
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if (j == 0 || j == width - 1)
+                    cout << "#";
+                
+                if (i == y && j == x)
+                    cout << "8";
+                
+                else if (i == fruitY && j == fruitX) 
+                    cout << "A";
+                else
+                {
+                    cout << " ";
+                }
+            }
+            cout << endl;
+        }
 
-enum Eways
-{
-	null = 0, top, right, left, down
-};                                                                 // все возможные варианты перемещени€ храним в перечислени€х (enumiration)
-Eways ways;
-
-bool YouLost;           
-
-void start() {             // что происходит при загрузки
-	YouLost = false;      //по умолчанию мы не проиграли
-	result = 0;            // по умолчанию результата нет
-	ways = null;          // по умолчанию не двигаетс€
-	x = weth / 2;
-	y = height / 2;   // ставим по центру карты по умолчанию
-
+        for (int i = 0; i < width + 1; i++) 
+            cout << "#";
+            cout << endl;
+        
+    
+}
+void Input() {
+    if (_kbhit()) {
+        switch (_getch ())
+        {
+        case 'w':
+            dora = UP;
+            break;
+        case 's':
+            dora = DOWN;
+            break;
+        case 'd':
+            dora = RIGHT;
+            break;
+        case 'a':
+            dora = LEFT;
+        case 'esc':
+            youlost = true;
+           
+        }
+    }
 }
 
-void Create() {    // отрисовывает карту и предметы на ней
-	system("cls");    // очищает терминал во врем€ каждого вызова функции
-
-	for (int i = 0; i < weth; i++)
-	{
-		cout << "*";
-	}
-
-	for (int i = 0; i < height; i++)
-	{
-		for (int j = 0; j < weth; j++) {           // тут создаетс€ поле. оно будет готово в будущем......
-			
-		}
-	}
-
-	for (int i = 0; i < weth; i++) 
-	{                                          
-		cout << "*";
-	}
-}
-
-void get() {      // получает информацию от пользовател€   
-
-}
-
-void BackEnd() {      // вс€ логика будет здесь
-
+void Logic() {
+    switch (dora)
+    {
+    case LEFT:
+        x--;
+        break;
+    case RIGHT:
+        x++;
+        break;
+    case UP:
+        y--;
+        break;
+    case DOWN:
+        y++;
+        break;
+    }
 }
 
 int main() {
-	start();
-	while (!YouLost)    // пока не проиграли вызываем функции
-	{
-		Create();
-		get();
-		BackEnd();
+    setup();
+    while (!youlost) 
+        create();
+        Input();
+        Logic();
+    
 
-	}
+
+return 0;
 }
